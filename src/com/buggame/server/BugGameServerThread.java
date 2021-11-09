@@ -11,8 +11,11 @@ public class BugGameServerThread extends Thread {
     private Socket socket = null;
     private String username = null;
 	private ArrayList<String> words = new ArrayList<String>();
+    private int x = 0; //used for tracking location
+    private int y = 0;
+    private int age;
     
-
+    
     public BugGameServerThread(Socket socket) {
     	
         super("BugGameServerThread");

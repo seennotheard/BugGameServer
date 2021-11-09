@@ -37,6 +37,10 @@ public class BugGameServer {
         new BugGameGameThread().start();
     }
     
+    private static void generateMap() {
+    	//todo: map gen code
+    }
+    
     private static void fillLetterPool() {
     	byte[] charCount = {13, 3, 3, 6, 18, 3, 4, 3, 12, 2, 2, 5, 3, 8, 11, 3, 2, 9, 6, 9, 6, 3, 3, 2, 3, 2};
     	for (int i = 0; i < charCount.length; i++) {
