@@ -31,6 +31,7 @@ public class BugGameServerThread extends Thread {
             out.println("Please enter a username.");
             while ((fromUser = in.readLine()) == null) {
         	}
+            //System.out.println(fromUser);
             if (fromUser.indexOf(' ') != -1)
             	username = '"' + fromUser + '"';
             username = fromUser;
@@ -40,6 +41,7 @@ public class BugGameServerThread extends Thread {
             	while ((fromUser = in.readLine()) == null) {
             		pause(0.01);
                 }
+            	//System.out.println(fromUser);
             	broadcast(fromUser);
                 Pattern pattern = Pattern.compile("\\w+");
                 Matcher matcher = pattern.matcher(fromUser);
