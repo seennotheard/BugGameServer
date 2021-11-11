@@ -36,8 +36,6 @@ public class BugGameServerThread extends Thread {
             username = fromUser;
             BugGameServer.addPlayer(this, socket);
             BugGameServer.broadcast("Player " + username + " has connected.");
-            BugGameServer.broadcastLetterPool();
-            BugGameServer.broadcastWords();
             while(true) {
             	while ((fromUser = in.readLine()) == null) {
             		pause(0.01);
@@ -63,8 +61,7 @@ public class BugGameServerThread extends Thread {
             //socket.close();
         } catch (SocketException e) {
         	BugGameServer.removePlayer(this);
-        	BugGameServer.broadcast("Player " + username + " has disconnected. Giving " + username + "'s words to the server.");
-        	BugGameServer.broadcastWords();
+        	BugGameServer.broadcast("Player " + username + " has disconnected.");
         } catch (IOException e) {
             e.printStackTrace();
         }

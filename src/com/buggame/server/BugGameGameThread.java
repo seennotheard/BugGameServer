@@ -9,12 +9,6 @@ public class BugGameGameThread extends Thread {
     }
 	
 	public void run() {
-		BugGameServer.flip();
-		BugGameServer.flip();
-		while (BugGameServer.getLetterPool().size() != 0) {
-			pause(20);
-			BugGameServer.flip();
-		}
 		BugGameServer.broadcast("There are no more unflipped letters. The game will automatically end in 60 seconds.");
 		pause(40);
 		BugGameServer.endGame();
