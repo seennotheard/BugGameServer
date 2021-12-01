@@ -23,12 +23,16 @@ public class BugGameServerThread extends Thread {
     }
     
     public void run() {
+    	MapGenerator gen = new MapGenerator(101);
     	
         try {
         	PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String fromUser;
             out.println("Please enter a username.");
+            out.println("<map>");
+            out.println(gen.getMapAsString(10, 10));
+            out.println("</map>");
             while ((fromUser = in.readLine()) == null) {
         	}
             //System.out.println(fromUser);

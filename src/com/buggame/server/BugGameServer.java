@@ -10,6 +10,7 @@ public class BugGameServer {
 	private static ArrayList<BugGameServerThread> playerThreads = new ArrayList<BugGameServerThread>();
 	private static ArrayList<Socket> clientSockets = new ArrayList<Socket>();
 	//private static ArrayList<String> serverWords = new ArrayList<String>();
+	private static int[][] map;
 	
     public static void main(String[] args) throws IOException {
     	if (args.length != 1) {
