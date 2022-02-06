@@ -92,14 +92,6 @@ public class BugGameServer {
     	String winner = null;
     	int highscore = -1;
     	for (BugGameServerThread player : playerThreads) {
-    		int score = 0;
-    		for(String word : player.getWords()) {
-    			score += word.length();
-    		}
-    		if (score > highscore) {
-    			winner = player.getUsername();
-    			highscore = score;
-    		}
     	}
     	if (highscore == -1)
     		broadcast("Error calculating winner.");

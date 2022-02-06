@@ -11,13 +11,15 @@ public class BugGameServerConnectionThread extends Thread {
 	}
 	
 	public void run() {
-		
+		//accepts new connections
 		try {
 			ServerSocket serverSocket = new ServerSocket(portNumber);
+			int i = 0;
 			while(true) {
-				while (true) {
-					new BugGameServerThread(serverSocket.accept()).start();
-				}
+
+				new BugGameServerThread(serverSocket.accept(), i).start();
+				
+				i++;
 			}
 		}
 		catch (IOException e) {

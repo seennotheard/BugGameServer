@@ -11,15 +11,17 @@ public class BugGameServerThread extends Thread {
     private Socket socket = null;
     private String username = null;
 	private ArrayList<String> words = new ArrayList<String>();
-    private int x = 0; //used for tracking location
-    private int y = 0;
-    private int age;
+	int playerId;
+	int x;
+	int y;
     
     
-    public BugGameServerThread(Socket socket) {
+    public BugGameServerThread(Socket socket, int playerId) {
     	
         super("BugGameServerThread");
         this.socket = socket;
+        this.playerId = playerId;
+        
     }
     
     public void run() {
@@ -32,7 +34,7 @@ public class BugGameServerThread extends Thread {
             out.println("Please enter a username.");
             out.println("<map>");
             out.println(gen.getMapAsString(10, 10));
-            out.println("</map>");
+            out.println("</end>");
             while ((fromUser = in.readLine()) == null) {
         	}
             //System.out.println(fromUser);
@@ -45,10 +47,27 @@ public class BugGameServerThread extends Thread {
             	while ((fromUser = in.readLine()) == null) {
             		pause(0.01);
                 }
+            	if(fromUser.substring(0, 6).equals("chat=")) {
+            		broadcast(fromUser.substring(6));
+            	}
+            	if(fromUser.substring(0, 6).equals("move=")) {
+            		String xString = "";
+            		for (int i = 5; i < fromUser.length(); i++) {
+            			if (fromUser.charAt(i) == ',') {
+            				x = Integer.parseInt(fromUser.substring(6, i));
+            				y = Integer.parseInt(fromUser.substring(i + 1));
+            				break;
+            			}
+            			else {
+            				xString = xString + fromUser.charAt(i);
+            			}
+            		}
+            		//broadcast the move or smth, wip
+            	}
             	//System.out.println(fromUser);
-            	broadcast(fromUser);
-                Pattern pattern = Pattern.compile("\\w+");
-                Matcher matcher = pattern.matcher(fromUser);
+            	//broadcast(fromUser);
+                //Pattern pattern = Pattern.compile("\\w+");
+                //Matcher matcher = pattern.matcher(fromUser);
                 /*
                 while (matcher.find()) {
                 	String word = matcher.group();
@@ -87,22 +106,6 @@ public class BugGameServerThread extends Thread {
         }	
     	
     }
-    
-    public ArrayList<String> getWords() {
-    	return words;
-    }
-	//fix
-	public void removeWord(String word) {
-		for (int i = 0; i < words.size(); i++) {
-			if (words.get(i).equals(word)) {
-				words.remove(i);
-			}
-		}
-	}
-	
-	public void addWord(String word) {
-			words.add(word);
-	}
 	
 	public String getUsername() {
 		return username;
