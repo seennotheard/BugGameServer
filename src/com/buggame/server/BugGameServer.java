@@ -24,7 +24,7 @@ public class BugGameServer {
     		pause(.001);
     	}
     	broadcast("Waiting on one more player to join.");
-    	while(playerThreads.size() <= 1) {
+    	while(playerThreads.size() <= 5) {
     		pause(.001);
     	}
         
@@ -43,7 +43,7 @@ public class BugGameServer {
 
 			try {
 				PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
-				out.println("Server: " + str);
+				out.println(str);
 				out.flush();
 					
 			} catch (IOException e) {
