@@ -27,13 +27,34 @@ public class BugGameServerThread extends Thread {
         	PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             String fromUser;
+            BugGameServer.addPlayer(this, socket);
             out.println("Please enter a username.");
+            
+            for (BugGameServerThread thread : BugGameServer.playerThreads) {
+            	if (thread != this) {
+	            	out.println("<newPlayer>\n" + 
+	            			thread.playerId + '\n' +
+	            			"</end>");
+            	}
+            }
+            
+            BugGameServer.broadcastOthers("<newPlayer>\n" + 
+            						 playerId + '\n' +
+            						 "</end>", socket);
+            
+            /*
+            BugGameServer.broadcast("<newPlayer>\n" + 
+					 playerId + '\n' +
+					 "</end>");
+			*/
+            
             out.println("<id>");
             out.println(playerId);
             out.println("</end>");
             out.println("<map>");
             out.println(gen.getMapAsString(10, 10));
             out.println("</end>");
+            
             while ((fromUser = in.readLine()) == null) {
         	}
             //System.out.println(fromUser);
@@ -42,7 +63,6 @@ public class BugGameServerThread extends Thread {
             	username = '"' + fromUser + '"';
             username = fromUser;
             */
-            BugGameServer.addPlayer(this, socket);
             //BugGameServer.broadcast("Player " + username + " has connected.");
             while(true) {
             	while ((fromUser = in.readLine()) == null) {
@@ -55,7 +75,10 @@ public class BugGameServerThread extends Thread {
             //socket.close();
         } catch (SocketException e) {
         	BugGameServer.removePlayer(this);
-        	BugGameServer.broadcast("Player " + username + " has disconnected.");
+        	BugGameServer.broadcastOthers("Player Id " + playerId + " has disconnected.", socket);
+            BugGameServer.broadcastOthers("<playerLeft>\n" + 
+					 playerId + '\n' +
+					 "</end>", socket);
         } catch (IOException e) {
             e.printStackTrace();
         }

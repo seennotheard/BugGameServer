@@ -7,7 +7,7 @@ import java.util.Scanner;
 import java.io.*;
 
 public class BugGameServer {
-	private static ArrayList<BugGameServerThread> playerThreads = new ArrayList<BugGameServerThread>();
+	public static ArrayList<BugGameServerThread> playerThreads = new ArrayList<BugGameServerThread>();
 	private static ArrayList<Socket> clientSockets = new ArrayList<Socket>();
 	//private static ArrayList<String> serverWords = new ArrayList<String>();
 	private static int[][] map;
@@ -23,12 +23,12 @@ public class BugGameServer {
     	while(playerThreads.size() == 0) {
     		pause(.001);
     	}
-    	broadcast("Waiting on one more player to join.");
+    	//broadcast("Waiting on one more player to join.");
     	while(playerThreads.size() <= 5) {
     		pause(.001);
     	}
         
-        broadcast("The game is starting. In 20 seconds, a third letter will be flipped.");
+        //broadcast("The game is starting. In 20 seconds, a third letter will be flipped.");
         broadcastPlayerList();
         new BugGameGameThread().start();
     }
@@ -52,6 +52,21 @@ public class BugGameServer {
 			
         }	
     	
+    }
+    
+    public static void broadcastOthers(String str, Socket thisSocket) {
+    	for(Socket clientSocket : clientSockets) {
+    		if (thisSocket != clientSocket) {
+    			try {
+    				PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
+    				out.println(str);
+    				out.flush();
+
+    			} catch (IOException e) {
+    				e.printStackTrace();
+    			}
+    		}
+        }	
     }
     
     private static void broadcastPlayerList() {
