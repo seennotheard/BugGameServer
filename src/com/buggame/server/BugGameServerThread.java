@@ -11,6 +11,7 @@ public class BugGameServerThread extends Thread {
 	int playerId;
 	public float x;
 	public float y;
+	public int rotation;
     private MessageProcessor messageProcessor;
     
     public BugGameServerThread(Socket socket, int playerId) {
@@ -18,6 +19,8 @@ public class BugGameServerThread extends Thread {
         this.socket = socket;
         this.playerId = playerId;
         messageProcessor = new MessageProcessor(this);
+        x = 384;
+        y = 224;
     }
     
     public void run() {
@@ -35,12 +38,25 @@ public class BugGameServerThread extends Thread {
 	            	out.println("<newPlayer>\n" + 
 	            			thread.playerId + '\n' +
 	            			"</end>");
+	            	pause(0.1);
+	            	out.println("<move>");
+					out.println("" + thread.playerId);
+					out.println("" + thread.x);
+					out.println("" + thread.y);
+					out.println("" + thread.rotation);
+					out.println("</end>");
             	}
             }
             
             BugGameServer.broadcastOthers("<newPlayer>\n" + 
             						 playerId + '\n' +
             						 "</end>", socket);
+            BugGameServer.broadcastOthers("<move>", socket);
+			BugGameServer.broadcastOthers("" + playerId, socket);
+			BugGameServer.broadcastOthers("" + 384.0, socket);
+			BugGameServer.broadcastOthers("" + 224.0, socket);
+			BugGameServer.broadcastOthers("" + rotation, socket);
+			BugGameServer.broadcastOthers("</end>", socket);
             
             /*
             BugGameServer.broadcast("<newPlayer>\n" + 

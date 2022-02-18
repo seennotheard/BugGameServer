@@ -10,27 +10,30 @@ public class MessageProcessor {
 
 	class MoveParser implements LineParser {
 		
-		boolean firstLine = true;
+		int moveCount = 0;
 
 		public void parseLine(String line) {
-			if (firstLine) {
+			if (moveCount == 0) {
 				parent.x = Float.parseFloat(line);
-				System.out.println("x " + parent.x);
-				firstLine = false;
+				moveCount ++;
+			}
+			else if (moveCount == 1) {
+				parent.y = Float.parseFloat(line);
+				moveCount ++;
 			}
 			else {
-				parent.y = Float.parseFloat(line);
-				System.out.println("y " + parent.y);
+				parent.rotation = Integer.parseInt(line);
 				parent.broadcast("<move>");
 				parent.broadcast("" + parent.playerId);
 				parent.broadcast("" + parent.x);
 				parent.broadcast("" + parent.y);
+				parent.broadcast("" + parent.rotation);
 				parent.broadcast("</end>");
 			}
 		}
 		
 		public void end() {
-			firstLine = true;
+			moveCount = 0;
 		}
 	}
 	
