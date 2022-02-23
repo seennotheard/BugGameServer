@@ -34,8 +34,34 @@ public class MessageProcessor {
 		}
 	}
 	
+	class AntHillMoveParser implements LineParser {
+		
+		boolean firstLine = true;
+
+		public void parseLine(String line) {
+		}
+		
+		public void end() {
+			firstLine = true;
+		}
+	}
+	
+	class CreateAntHillParser implements LineParser {
+		
+		boolean firstLine = true;
+
+		public void parseLine(String line) {
+		}
+		
+		public void end() {
+			firstLine = true;
+		}
+	}
+	
 	
 	LineParser moveParser = new MoveParser();
+	LineParser antHillMoveParser = new AntHillMoveParser();
+	LineParser createAntHillParser = new CreateAntHillParser();
 	
 	public MessageProcessor(BugGameServerThread parent) {
 		this.parent = parent;
