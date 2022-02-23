@@ -29,8 +29,8 @@ public class BugGameServer {
     	}
         
         //broadcast("The game is starting. In 20 seconds, a third letter will be flipped.");
-        broadcastPlayerList();
-        new BugGameGameThread().start();
+        //broadcastPlayerList();
+        //new BugGameGameThread().start();
     }
     
     private static void generateMap() {
@@ -67,14 +67,6 @@ public class BugGameServer {
     			}
     		}
         }	
-    }
-    
-    private static void broadcastPlayerList() {
-    	String playerList = "Player List: ";
-    	for(BugGameServerThread player : playerThreads) {
-    		playerList += player.getUsername() + " ";
-        }
-    	broadcast(playerList.trim());
     }
     
     public static ArrayList<Socket> getClientSockets() {
